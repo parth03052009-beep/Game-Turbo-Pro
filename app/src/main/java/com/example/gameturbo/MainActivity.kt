@@ -384,27 +384,9 @@ class MainActivity : Activity() {
         .setNegativeButton("Close", null)
         .show()
 }
-        val packages = listOf(
-            "com.dts.freefiremax",
-            "com.dts.freefireth"
-        )
 
-        var gameIntent: Intent? = null
 
-        for (packageName in packages) {
-            gameIntent = packageManager.getLaunchIntentForPackage(packageName)
-            if (gameIntent != null) break
-        }
-
-        if (gameIntent != null) {
-            startActivity(gameIntent)
-        } else {
-            AlertDialog.Builder(this)
-                .setMessage("Free Fire is not installed or is not visible to this app.")
-                .setPositiveButton("OK", null)
-                .show()
-        }
-    }
+    
 
     private fun showRamInfo() {
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
