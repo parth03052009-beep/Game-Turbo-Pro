@@ -251,7 +251,7 @@ addToolCard(
         setContentView(scroll)
     }
 
-    (root: LinearLayout, title: String) {
+    private fun addSection(root: LinearLayout, title: String) {
         val label = makeText(title, 14f, accent, true)
         label.setPadding(0, dp(15), 0, dp(12))
         root.addView(label)
