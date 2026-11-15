@@ -353,6 +353,37 @@ class MainActivity : Activity() {
     }
 
     private fun launchGame() {
+    val intent = Intent(Intent.ACTION_MAIN)
+    intent.addCategory(Intent.CATEGORY_LAUNCHER)
+
+    val apps = packageManager.queryIntentActivities(intent, 0)
+        .filter { it.activityInfo.packageName != packageName }
+        .distinctBy { it.activityInfo.packageName }
+        .sortedBy { it.loadLabel(packageManager).toString() }
+
+    if (apps.isEmpty()) {
+        Toast.makeText(this, "No launchable apps found", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    val names = apps.map {
+        it.loadLabel(packageManager).toString()
+    }.toTypedArray()
+
+    AlertDialog.Builder(this)
+        .setTitle("SELECT A GAME OR APP")
+        .setItems(names) { _, which ->
+            val selectedPackage = apps[which].activityInfo.packageName
+            val launchIntent =
+                packageManager.getLaunchIntentForPackage(selectedPackage)
+
+            if (launchIntent != null) {
+                startActivity(launchIntent)
+            }
+        }
+        .setNegativeButton("Close", null)
+        .show()
+}
         val packages = listOf(
             "com.dts.freefiremax",
             "com.dts.freefireth"
