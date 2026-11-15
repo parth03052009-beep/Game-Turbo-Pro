@@ -229,8 +229,14 @@ class MainActivity : Activity() {
             root,
             "🧹 Storage Cleaner Guide",
             "Learn safe ways to clear app cache"
-        ) { showCleanerGuide() }
+        ) { showCleanerGuide()}
 
+        
+addToolCard(
+    root,
+    "🎮 Game Assistant",
+    "Open gaming tools and voice options"
+) { showGameAssistant() }
         root.addView(
             makeText(
                 "GAME TURBO PRO  •  VERSION 1.0",
@@ -245,11 +251,34 @@ class MainActivity : Activity() {
         setContentView(scroll)
     }
 
-    private fun addSection(root: LinearLayout, title: String) {
+    (root: LinearLayout, title: String) {
         val label = makeText(title, 14f, accent, true)
         label.setPadding(0, dp(15), 0, dp(12))
         root.addView(label)
     }
+
+private fun showGameAssistant() {
+    val message = """
+        RAM Monitor
+
+        Battery Temperature
+
+        Game Session Timer
+
+        Touch Response Test
+
+        Voice Changer
+
+        Note: Live voice changing inside games
+        requires compatibility testing.
+    """.trimIndent()
+
+    AlertDialog.Builder(this)
+        .setTitle("GAME ASSISTANT")
+        .setMessage(message)
+        .setPositiveButton("CLOSE", null)
+        .show()
+}
 
     private fun addToolCard(
         root: LinearLayout,
