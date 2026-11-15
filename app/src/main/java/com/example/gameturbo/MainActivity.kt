@@ -146,7 +146,7 @@ class MainActivity : Activity() {
         addToolCard(
             root,
             "🎮 Game Launcher",
-            "Launch Free Fire MAX or Free Fire"
+            "Automatically detect and launch installed games"
         ) { launchGame() }
 
         addToolCard(
