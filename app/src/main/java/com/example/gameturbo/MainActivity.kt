@@ -258,28 +258,52 @@ addToolCard(
     }
 
 private fun showGameAssistant() {
-    val message = """
-        RAM Monitor
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+        !Settings.canDrawOverlays(this)
+    ) {
+        val permissionIntent = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            android.net.Uri.parse("package:$packageName")
+        )
+        startActivity(permissionIntent)
 
-        Battery Temperature
+        Toast.makeText(
+            this,
+            "Enable Display over other apps, then tap Game Assistant again.",
+            Toast.LENGTH_LONG
+        ).show()
+        return
+    }
 
-        Game Session Timer
+    val serviceIntent = Intent(
+        this,
+        FloatingAssistantService::class.java
+    )
 
-        Touch Response Test
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
 
-        Voice Changer
+        Toast.makeText(
+            this,
+            "Game Assistant started!",
+            Toast.LENGTH_LONG
+        ).show()
 
-        Note: Live voice changing inside games
-        requires compatibility testing.
-    """.trimIndent()
-
-    AlertDialog.Builder(this)
-        .setTitle("GAME ASSISTANT")
-        .setMessage(message)
-        .setPositiveButton("CLOSE", null)
-        .show()
+    } catch (error: Exception) {
+        Toast.makeText(
+            this,
+            "Unable to start: ${error.message}",
+            Toast.LENGTH_LONG
+        ).show()
+    }
 }
 
+
+  
     private fun addToolCard(
         root: LinearLayout,
         title: String,
